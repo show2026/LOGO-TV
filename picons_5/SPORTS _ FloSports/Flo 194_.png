@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" data-beasties-container>
+<head>
+  <meta charset="utf-8">
+  <!-- Critical CSS - loading screen and theme background -->
+  <style>
+    /* Theme backgrounds */
+    html[data-theme="dark"], html[data-theme="dark"] body { background-color: #0f0f0f !important; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]), html:not([data-theme="light"]) body { background-color: #0f0f0f !important; }
+    }
+
+    /* Loading screen */
+    #app-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8f8f8;
+      transition: opacity 0.3s ease-out;
+    }
+    html[data-theme="dark"] #app-loading { background-color: #0f0f0f; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) #app-loading { background-color: #0f0f0f; }
+    }
+
+    /* Logo visibility based on theme */
+    #app-loading .logo-light { display: block; }
+    #app-loading .logo-dark { display: none; }
+    html[data-theme="dark"] #app-loading .logo-light { display: none; }
+    html[data-theme="dark"] #app-loading .logo-dark { display: block; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) #app-loading .logo-light { display: none; }
+      html:not([data-theme="light"]) #app-loading .logo-dark { display: block; }
+    }
+
+    /* Logo container with shimmer effect */
+    #app-loading .logo-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      animation: logo-scale 2s ease-in-out infinite;
+    }
+    #app-loading img {
+      width: clamp(140px, 22vw, 200px);
+      display: block;
+    }
+    @keyframes logo-scale {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    /* Shimmer sweep effect */
+    #app-loading .logo-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+      );
+      animation: shimmer 2s ease-in-out infinite;
+    }
+    html[data-theme="dark"] #app-loading .logo-container::after {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 100%
+      );
+    }
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 150%; }
+    }
+
+    /* Fade out when ready */
+    #app-loading.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+  <!-- Theme initialization - sets theme attribute before render -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('flohome_theme') || 'system';
+        var resolved = theme;
+        if (theme === 'system') {
+          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', resolved);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <!-- Osano Consent Management -->
+  <script src="https://cmp.osano.com/AzyWAQS5NWEEWkU9/55c463c7-97ce-4e58-9403-bf5693e6fd09/osano.js" async></script>
+  <script src="/osano-custom.js" async></script>
+
+  <title>FloSports - Live Sports Event Streaming and News</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="description" content="FloSports is the home of live sports streaming. Watch live events, breaking news, and exclusive content from 20+ sports including wrestling, racing, hockey, and more.">
+  <meta name="keywords" content="FloSports, live sports, streaming, wrestling, racing, hockey, sports news">
+  <meta name="author" content="FloSports">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.flosports.tv/">
+  <meta property="og:title" content="FloSports - Live Sports Event Streaming and News">
+  <meta property="og:description" content="FloSports is the home of live sports streaming. Watch live events, breaking news, and exclusive content from 20+ sports.">
+  <meta property="og:image" content="https://www.flosports.tv/assets/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="FloSports - Live Sports Streaming">
+  <meta property="og:site_name" content="FloSports">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@flosports">
+  <meta name="twitter:creator" content="@flosports">
+  <meta name="twitter:title" content="FloSports - Live Sports Event Streaming and News">
+  <meta name="twitter:description" content="FloSports is the home of live sports streaming. Watch live events, breaking news, and exclusive content from 20+ sports.">
+  <meta name="twitter:image" content="https://www.flosports.tv/assets/images/og-image.jpg">
+  <meta name="twitter:image:alt" content="FloSports - Live Sports Event Streaming and News">
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https: blob:;
+    style-src 'self' 'unsafe-inline' https://jobs.ashbyhq.com https://cmp.osano.com;
+    font-src 'self';
+    img-src 'self' data: https: blob:;
+    media-src 'self' blob: https://*.amagi.tv https://*.akamaized.net https://*.cloudfront.net https://*.amazonaws.com https://cdn.prod.website-files.com;
+    connect-src 'self' https:;
+    frame-src 'self' https:;
+    worker-src 'self' blob:;
+    form-action 'self' https://jobs.ashbyhq.com;
+    base-uri 'self';
+  ">
+
+  <!-- Security Headers (frame-ancestors and X-Frame-Options must be set via HTTP headers, not meta) -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+  <!-- Preconnect to API domains for faster requests -->
+  <link rel="preconnect" href="https://api.flosports.tv">
+  <link rel="preconnect" href="https://flocms.flosports.tv">
+  <link rel="preconnect" href="https://wapn1.flosports.tv">
+
+  <!-- Preload critical fonts to prevent FOUT -->
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/uni-neue/woff/uni-neue-bold-webfont.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/uni-neue/woff/uni-neue-heavy-webfont.woff2" crossorigin>
+
+  <!-- DNS prefetch for CDN domains (video streaming, images) -->
+  <link rel="dns-prefetch" href="https://playouts.now.amagi.tv">
+  <link rel="dns-prefetch" href="https://d382g28xnbszpj.cloudfront.net">
+  <link rel="dns-prefetch" href="https://flosports-assets.akamaized.net">
+<style>:root{--gray900:#0c0c0c;--gray850:#1d1d1f;--gray800:#323236;--gray700:#535357;--gray600:#6f6f73;--gray500:#939396;--gray400:#afafb1;--gray300:#d0d0d1;--gray200:#e6e6e7;--gray150:#ebeae9;--gray100:#eeeef0;--gray80:#f5f5f7;--gray50:#f3f3f5;--white:#ffffff;--red900:#b20e0a;--red850:#c7100b;--red800:#d9110d;--red750:#e0120d;--red700:#ff140f;--red600:#ff4642;--red500:#ff625e;--red400:#ff8280;--red300:#ffa09e;--red200:#ffd7d6;--red100:#ffe9e8;--red50:#fff6f5;--green900:#006b2e;--green800:#00913f;--green700:#00b74f;--green600:#00c756;--green500:#16db6b;--green400:#55e091;--green300:#8aedb5;--green200:#93f5bd;--green100:#d9ffe9;--green50:#ebfff3;--blue900:#00165c;--blue800:#001f82;--blue700:#0028a8;--blue600:#133dc2;--blue500:#345ad1;--blue400:#5e7fe7;--blue300:#a5bafc;--blue200:#dae2fd;--blue100:#f2f5ff;--blue50:#f7f9ff;--orange900:#462100;--orange800:#743700;--orange700:#a24e00;--orange600:#d16400;--orange500:#ff7a00;--orange400:#ff922e;--orange300:#ffaa5d;--orange200:#ffc38b;--orange100:#ffdbb9;--orange50:#fff3e8;--orange:#ff922e;--yellow900:#463f00;--yellow800:#746800;--yellow700:#a29200;--yellow600:#d1bc00;--yellow500:#ffe500;--yellow400:#ffea2e;--yellow300:#ffef5d;--yellow200:#fff38b;--yellow100:#fff8b9;--yellow50:#fffde8;--copper900:#5e3512;--copper800:#744822;--copper700:#956439;--copper600:#b57f4f;--copper500:#c39a77;--copper400:#d0b59d;--copper300:#dfcfc2;--copper200:#e5ddd6;--copper100:#ebeae9;--copper50:#f6f5f4;--shadeWhite25:#ffffff40;--shadeWhite80:#ffffffcc;--shadeGray100-50:#eeeef080;--shadeGray100-70:#eeeef0b2;--shadeGray900-25:#0c0c0c40;--shadeGray900-50:#0c0c0c80;--shadeGray800-80:#323236cc;--shadeRed700-25:#ff140f40;--shadeRed700-30:#ff140f4d;--shadeBlue600-25:#133dc240;--gray50-transparent:rgba(243, 243, 245, 0);--highlightDarkOrange:#d55e00;--highlightBrown:#9b6a00;--highlightDarkGreen:#2e7368;--highlightBlue:#0072b2;--highlightDarkBlue:#332288;--highlightPurple:#704dbc;--highlightRose:#882255;--highlightPink:#c222a9;--metalGold:#c19746;--metalBronze:#b47662;--headerHeight:44px;--shadow-card:0 2px 8px rgba(0, 0, 0, .06);--shadow-card-hover:0 8px 24px rgba(0, 0, 0, .12);--headerMobileHeight:56px;--text-2xs:.625rem;--text-xs2:.6875rem;--text-xs:.75rem;--text-sm2:.8125rem;--text-sm:.875rem;--text-md:.9375rem;--text-base:1rem;--text-lg:1.125rem;--text-xl:1.25rem;--text-xl2:1.375rem;--text-2xl:1.5rem;--text-3xl:1.75rem;--text-4xl:2rem;--text-5xl:2.25rem;--text-6xl:2.5rem;--text-7xl:2.75rem}:root{--dmPageBg:#0f0f0f;--dmSectionBg:#141414;--dmSurfacePrimary:#1a1a1a;--dmSurface:#1e1e1e;--dmSurfaceHover:#2a2a2a;--dmSurfaceActive:#333333;--dmSurfaceSelected:#444444;--dmBorderSubtle:#333333;--dmBorder:#444444;--dmBorderHover:#555555;--dmBorderFocus:#666666;--dmTextPrimary:#ffffff;--dmTextSecondary:#e8e8e8;--dmTextTertiary:#cccccc;--dmTextMuted:#999999;--dmTextPlaceholder:#888888;--dmTextDisabled:#666666;--dmAccentBlueBg:#1a2a4a;--dmAccentBlue:#3b82f6;--dmAccentBlueLight:#60a5fa;--dmAccentRed:#ef4444;--dmGlow:0 0 20px 4px rgba(255, 255, 255, .12);--dmShadow:0 8px 32px rgba(0, 0, 0, .6);--dark-bg:#0c0c0c;--dark-bg-elevated:#1d1d1f;--dark-bg-hover:#323236;--dark-text:#ffffff;--dark-text-muted:#939396;--dark-border:#323236}@font-face{font-family:Uni-Neue-Regular;src:url(/assets/fonts/uni-neue/woff/uni-neue-regular-webfont.woff2) format("woff2"),url(/assets/fonts/uni-neue/woff/uni-neue-regular-webfont.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:Uni-Neue-Bold;src:url(/assets/fonts/uni-neue/woff/uni-neue-bold-webfont.woff2) format("woff2"),url(/assets/fonts/uni-neue/woff/uni-neue-bold-webfont.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}*,*:before,*:after{margin:0;padding:0;box-sizing:border-box}*:focus{outline:none}*:focus-visible{outline:2px solid var(--red750);outline-offset:2px}a:focus-visible{outline:2px solid var(--red750);outline-offset:2px}@media (prefers-reduced-motion: reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}html{scroll-behavior:smooth}html,body{font-size:100%;font-weight:100;line-height:1.5}body{font-family:Uni-Neue-Regular,Helvetica,Arial,sans-serif;overflow-x:hidden;overflow-y:scroll;background-color:var(--white);color:var(--gray900);transition:background-color .2s ease,color .2s ease}a{font-family:Uni-Neue-Regular,Helvetica,Arial,sans-serif;font-weight:100;color:var(--blue700);font-size:var(--text-sm);line-height:var(--text-xl);text-decoration:underline;text-underline-offset:.15em;cursor:pointer;transition:color .2s ease}a:hover{color:var(--blue800)}a:focus-visible{outline:2px solid var(--red750);outline-offset:2px}img{border:none;padding:0}.skip-to-main{position:absolute;left:-9999px;z-index:10000;padding:8px 16px;background:var(--red700);color:var(--white);font-family:Uni-Neue-Bold,Helvetica,Arial,sans-serif;font-size:var(--text-sm);text-decoration:none}.skip-to-main:focus{left:16px;top:16px}</style><link rel="stylesheet" href="styles-WYYR7HDD.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-WYYR7HDD.css"></noscript></head>
+<body>
+  <!-- Loading screen - shown until Angular is ready -->
+  <div id="app-loading">
+    <div class="logo-container">
+      <img class="logo-light" src="assets/images/logos/dark/flosports.svg" alt="FloSports">
+      <img class="logo-dark" src="assets/images/logos/flosports.svg" alt="FloSports">
+    </div>
+  </div>
+
+  <a href="#main-content" class="skip-to-main">Skip to main content</a>
+  <app-root></app-root>
+<link rel="modulepreload" href="chunk-EAGSMQRF.js"><link rel="modulepreload" href="chunk-PFAPSW3W.js"><link rel="modulepreload" href="chunk-Y5YWUZPP.js"><link rel="modulepreload" href="chunk-LWLSKGAV.js"><link rel="modulepreload" href="chunk-EQDQRRRY.js"><script src="polyfills-BUUDEW7V.js" type="module"></script><script src="main-JEEILPJZ.js" type="module"></script></body>
+</html>
